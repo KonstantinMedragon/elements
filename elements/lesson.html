@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок | Ба Цзы — зеркало судьбы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+    <style>
+        /* ... стили как в предыдущей версии ... */
+        :root {
+            --bg-page: #fefef9;
+            --bg-card: #fff9ef;
+            --border-card: 1px solid #ece0cc;
+            --border-divider: 1px solid #e8e0d0;
+            --radius-card: 30px;
+            --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.05);
+            --font-serif: 'Spectral', 'Times New Roman', Georgia, serif;
+            --font-chinese: 'Zen Old Mincho', 'Noto Serif SC', serif;
+            --text-primary: #2f2a22;
+            --text-secondary: #5a4d3b;
+            --text-accent: #a56b3a;
+            --text-chinese: #9f7657;
+            --text-muted: #aa9f8a;
+            --accent-border: #d6b07a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-page); font-family: var(--font-serif); color: var(--text-primary); min-height: 100vh; padding: 2rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .video-card { background: var(--bg-card); border-radius: var(--radius-card); border: var(--border-card); box-shadow: var(--shadow-card); overflow: hidden; }
+        .video-wrapper { display: flex; justify-content: center; align-items: center; padding: 1.5rem; background: var(--bg-page); }
+        .video-container { position: relative; width: 80%; aspect-ratio: 16 / 9; background: #000; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-card); margin: 0 auto; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-content { padding: 2rem; }
+        .back-link { display: inline-block; margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-muted); text-decoration: none; }
+        .back-link:hover { color: var(--text-accent); }
+        .lesson-title { font-family: var(--font-chinese); font-size: 1.8rem; font-weight: 500; color: var(--text-accent); margin-bottom: 0.5rem; }
+        .lesson-description { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: var(--border-divider); }
+        .lesson-navigation { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+        .nav-btn { background: transparent; border: 1px solid var(--accent-border); border-radius: 30px; padding: 0.6rem 1.5rem; font-family: var(--font-serif); font-size: 0.85rem; color: var(--text-accent); cursor: pointer; transition: all 0.2s ease; }
+        .nav-btn:hover { background: rgba(166, 107, 58, 0.05); }
+        .nav-btn.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+        .user-info { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .user-name { font-size: 0.85rem; color: var(--text-secondary); }
+        .logout-btn { background: none; border: none; font-family: var(--font-serif); font-size: 0.75rem; color: var(--text-muted); cursor: pointer; }
+        .logout-btn:hover { color: var(--text-accent); }
+        @media (max-width: 768px) { body { padding: 1rem; } .video-container { width: 95%; } .video-content { padding: 1.25rem; } .lesson-title { font-size: 1.3rem; } .lesson-navigation { flex-direction: column; } .nav-btn { text-align: center; } .video-wrapper { padding: 1rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-info">
+            <span class="user-name" id="userName"></span>
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+
+        <div class="video-card">
+            <div class="video-wrapper">
+                <div class="video-container">
+                    <iframe id="videoFrame" 
+                            src=""
+                            allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" 
+                            frameborder="0" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="video-content">
+                <a href="module-1.html" class="back-link">← К списку уроков</a>
+                <div class="lesson-title" id="lessonTitle">Загрузка...</div>
+                <div class="lesson-description" id="lessonDescription"></div>
+                
+                <div class="lesson-navigation">
+                    <button class="nav-btn" id="prevBtn" onclick="prevLesson()">← Предыдущий урок</button>
+                    <button class="nav-btn" id="nextBtn" onclick="nextLesson()">Следующий урок →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ДАННЫЕ УРОКОВ С KINESCOPE
+        const lessonsData = {
+    1: { title: 'Пролог', description: 'Введение в курс Ба Цзы...', kinescopeId: 'dwr2AhcpCgbTUyk8s1wzp8' },
+    2: { title: 'Обо мне', description: 'Об удаче, рыбе и рыбаках.', kinescopeId: '7eMJMo37eUimhwdjfh74Z7' },
+    3: { title: 'Сотворение пяти элементов. Возникновение мира. Крест Хэ Ту', description: 'Космогонический миф...', kinescopeId: 'tByAh4EP6XhYPzukeMcogH' },
+    4: { title: 'Трансформация Креста в Пентаграмму...', description: 'Как крест Хэ Ту превращается...', kinescopeId: 'r3U9CFCXEA18CYTGefVexv' },
+    5: { title: 'Примеры пяти эмоций в поэзии', description: 'Как пять элементов проявляются...', kinescopeId: 'dnVaSMGEgmif1dFczcfYrv' },
+    6: { title: 'Дао', description: 'Найти человека, забывшего слова и поговорить с ним.', kinescopeId: '7yyALYD1oWg3bk1xKCqZPH' },
+    7: { title: 'Император У-ди и его реформа календаря. Сближение Юпитера и Сатурна', description: 'Почему У-ди изменил календарь, создав «Тайчу» (太初) в 104 г. до н.э.', kinescopeId: 'pGzUuaLFcX466HwzRjo3KD' }
+};
+
+        // Проверка авторизации
+        const authData = JSON.parse(localStorage.getItem('baZiAuth') || sessionStorage.getItem('baZiAuth') || 'null');
+        if (!authData) window.location.href = 'login.html';
+        document.getElementById('userName').textContent = authData.name;
+        
+        // Водяной знак
+        function addWatermark() {
+            const oldWatermark = document.getElementById('dynamicWatermark');
+            if (oldWatermark) oldWatermark.remove();
+            const watermark = document.createElement('div');
+            watermark.id = 'dynamicWatermark';
+            watermark.textContent = `${authData.name} • ${authData.email}`;
+            watermark.style.cssText = `position: fixed; bottom: 12px; right: 12px; font-size: 10px; font-family: monospace; color: rgba(166, 107, 58, 0.2); pointer-events: none; z-index: 9999; user-select: none;`;
+            document.body.appendChild(watermark);
+        }
+        
+        // Получаем параметры из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentLesson = parseInt(urlParams.get('lesson')) || 1;
+        
+        // ПРОВЕРЯЕМ: что пришло из URL
+        console.log('URL параметры:', {
+            lesson: urlParams.get('lesson'),
+            kinescope: urlParams.get('kinescope'),
+            stage: urlParams.get('stage')
+        });
+        
+        const kinescopeParam = urlParams.get('kinescope');
+        if (kinescopeParam) {
+            for (const [num, data] of Object.entries(lessonsData)) {
+                if (data.kinescopeId === kinescopeParam) {
+                    currentLesson = parseInt(num);
+                    break;
+                }
+            }
+        }
+        
+        console.log('Текущий урок:', currentLesson, 'Данные:', lessonsData[currentLesson]);
+        
+        const totalLessons = Object.keys(lessonsData).length;
+        
+        function loadLesson() {
+            const data = lessonsData[currentLesson];
+            
+            if (!data) {
+                console.error('Урок не найден! currentLesson =', currentLesson);
+                document.getElementById('lessonTitle').textContent = 'Урок не найден';
+                document.getElementById('lessonDescription').textContent = 'Видео для этого урока ещё не добавлено.';
+                document.getElementById('videoFrame').src = '';
+                return;
+            }
+            
+            console.log('Загружаем урок:', data.title, 'ID:', data.kinescopeId);
+            
+            document.getElementById('lessonTitle').textContent = data.title;
+            document.getElementById('lessonDescription').textContent = data.description;
+            document.title = `${data.title} | Ба Цзы — зеркало судьбы`;
+            
+            const videoUrl = `https://kinescope.io/embed/${data.kinescopeId}?autoplay=0&controls=1&watermark=1`;
+            console.log('URL видео:', videoUrl);
+            document.getElementById('videoFrame').src = videoUrl;
+            
+            const newUrl = `lesson.html?stage=1&lesson=${currentLesson}&kinescope=${data.kinescopeId}`;
+            window.history.pushState({ lesson: currentLesson }, '', newUrl);
+            
+            localStorage.setItem('lastLesson', JSON.stringify({ stage: 1, lesson: currentLesson, kinescopeId: data.kinescopeId }));
+            updateNavButtons();
+        }
+        
+        function prevLesson() { if (currentLesson > 1) { currentLesson--; loadLesson(); } }
+        function nextLesson() { if (currentLesson < totalLessons) { currentLesson++; loadLesson(); } }
+        
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (prevBtn) prevBtn.classList.toggle('disabled', currentLesson <= 1);
+            if (nextBtn) nextBtn.classList.toggle('disabled', currentLesson >= totalLessons);
+        }
+        
+        // Защита
+        document.querySelector('.video-container')?.addEventListener('contextmenu', (e) => { e.preventDefault(); return false; });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U') || (e.ctrlKey && e.key === 'S') || e.key === 'PrintScreen') {
+                e.preventDefault(); return false;
+            }
+        });
+        
+        function logout() {
+            localStorage.removeItem('baZiAuth');
+            sessionStorage.removeItem('baZiAuth');
+            window.location.href = 'login.html';
+        }
+        
+        addWatermark();
+        loadLesson();
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход | Ба Цзы — зеркало судьбы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #fefef9;
+            --bg-card: #fff9ef;
+            --border-card: 1px solid #ece0cc;
+            --radius-card: 30px;
+            --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.05);
+            --font-serif: 'Spectral', 'Times New Roman', Georgia, serif;
+            --font-chinese: 'Zen Old Mincho', 'Noto Serif SC', serif;
+            --text-primary: #2f2a22;
+            --text-secondary: #5a4d3b;
+            --text-accent: #a56b3a;
+            --accent-border: #d6b07a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-page);
+            font-family: var(--font-serif);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-card);
+            padding: 2.5rem;
+            border: var(--border-card);
+            box-shadow: var(--shadow-card);
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .chinese-title {
+            font-family: var(--font-chinese);
+            font-size: 2rem;
+            color: var(--text-accent);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e8e0d0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: 1px solid #e0d5c5;
+            border-radius: 12px;
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--text-accent);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .checkbox input {
+            width: 16px;
+        }
+
+        .forgot-link {
+            color: #aa9f8a;
+            text-decoration: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: transparent;
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--text-accent);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: rgba(166, 107, 58, 0.05);
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #aa9f8a;
+        }
+
+        .footer a {
+            color: var(--text-accent);
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="chinese-title">八字</div>
+        <div class="subtitle">Ба Цзы — зеркало судьбы</div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <div class="form-options">
+                <label class="checkbox">
+                    <input type="checkbox" id="remember"> Запомнить меня
+                </label>
+                <a href="#" class="forgot-link" onclick="showToast('Восстановление пароля в разработке')">Забыли пароль?</a>
+            </div>
+            <button type="submit" class="btn">Войти</button>
+        </form>
+        <div class="footer">
+            Нет доступа? <a href="#" onclick="showToast('Обратитесь к администратору')">Получить доступ</a>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        const DEMO_USERS = [
+            { email: 'student@example.com', password: 'password123', name: 'Константин', accessLevel: 1 },
+            { email: 'demo@pyaty-element.ru', password: 'demo2024', name: 'Медрагон', accessLevel: 5 }
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            const user = DEMO_USERS.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                const authData = {
+                    id: user.email,
+                    name: user.name,
+                    email: user.email,
+                    accessLevel: user.accessLevel,
+                    loginAt: new Date().toISOString()
+                };
+                
+                if (remember) {
+                    localStorage.setItem('baZiAuth', JSON.stringify(authData));
+                } else {
+                    sessionStorage.setItem('baZiAuth', JSON.stringify(authData));
+                }
+                
+                showToast(`Добро пожаловать, ${user.name}!`);
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 800);
+            } else {
+                showToast('Неверный email или пароль');
+            }
+        });
+    </script>
+</body>
+</html>
