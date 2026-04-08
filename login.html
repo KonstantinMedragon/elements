@@ -10,13 +10,17 @@
             --bg-page: #fefef9;
             --bg-card: #fff9ef;
             --border-card: 1px solid #ece0cc;
+            --border-divider: 1px solid #e8e0d0;
             --radius-card: 30px;
+            --radius-small: 16px;
             --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.05);
             --font-serif: 'Spectral', 'Times New Roman', Georgia, serif;
             --font-chinese: 'Zen Old Mincho', 'Noto Serif SC', serif;
             --text-primary: #2f2a22;
             --text-secondary: #5a4d3b;
             --text-accent: #a56b3a;
+            --text-chinese: #9f7657;
+            --text-muted: #aa9f8a;
             --accent-border: #d6b07a;
         }
 
@@ -75,6 +79,12 @@
             margin-bottom: 0.5rem;
         }
 
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         input {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -84,11 +94,30 @@
             font-family: var(--font-serif);
             font-size: 0.9rem;
             color: var(--text-primary);
+            transition: all 0.2s ease;
         }
 
         input:focus {
             outline: none;
             border-color: var(--text-accent);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-muted);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: var(--text-accent);
         }
 
         .form-options {
@@ -97,6 +126,8 @@
             align-items: center;
             margin-bottom: 1.5rem;
             font-size: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .checkbox {
@@ -109,11 +140,16 @@
 
         .checkbox input {
             width: 16px;
+            margin: 0;
         }
 
-        .forgot-link {
-            color: #aa9f8a;
+        .help-link {
+            color: var(--text-muted);
             text-decoration: none;
+        }
+
+        .help-link:hover {
+            color: var(--text-accent);
         }
 
         .btn {
@@ -126,6 +162,7 @@
             font-size: 0.9rem;
             color: var(--text-accent);
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .btn:hover {
@@ -174,28 +211,72 @@
         <form id="loginForm">
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" id="email" required placeholder="your@email.com">
+                <input type="email" id="email" required>
             </div>
             <div class="form-group">
                 <label>Пароль</label>
-                <input type="password" id="password" required placeholder="••••••••">
+                <div class="password-wrapper">
+                    <input type="text" id="password" required>
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        👁️
+                    </button>
+                </div>
             </div>
             <div class="form-options">
                 <label class="checkbox">
-                    <input type="checkbox" id="remember"> Запомнить меня
+                    <input type="checkbox" id="hidePassword"> Скрыть пароль
                 </label>
-                <a href="#" class="forgot-link" onclick="showToast('Восстановление пароля в разработке')">Забыли пароль?</a>
+                <a href="#" class="help-link" onclick="showToast('Обратитесь к администратору: konstantlab@gmail.com')">Нет доступа?</a>
             </div>
             <button type="submit" class="btn">Войти</button>
         </form>
         <div class="footer">
-            Нет доступа? <a href="#" onclick="showToast('Обратитесь к администратору')">Получить доступ</a>
+            <a href="#" onclick="showToast('Обратитесь за доступом: konstantlab@gmail.com')">Получить доступ</a>
         </div>
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
+        // Демо-пользователи
+        const DEMO_USERS = [
+            { email: 'student@example.com', password: 'password123', name: 'Александр', accessLevel: 1 },
+            { email: 'demo@pyaty-element.ru', password: 'demo2024', name: 'Демо', accessLevel: 1 }
+        ];
+
+        // Элементы DOM
+        const passwordInput = document.getElementById('password');
+        const hidePasswordCheckbox = document.getElementById('hidePassword');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+
+        // Функция переключения типа поля пароля
+        function updatePasswordVisibility() {
+            if (hidePasswordCheckbox.checked) {
+                passwordInput.type = 'password';
+                togglePasswordBtn.style.opacity = '0.5';
+            } else {
+                passwordInput.type = 'text';
+                togglePasswordBtn.style.opacity = '1';
+            }
+        }
+
+        // Кнопка-глазик для быстрого переключения
+        togglePasswordBtn.addEventListener('click', () => {
+            hidePasswordCheckbox.checked = !hidePasswordCheckbox.checked;
+            updatePasswordVisibility();
+        });
+
+        // При изменении чекбокса
+        hidePasswordCheckbox.addEventListener('change', updatePasswordVisibility);
+
+        // Инициализация: поле пароля пустое, показывает символы
+        passwordInput.value = '';
+        passwordInput.type = 'text';
+        hidePasswordCheckbox.checked = false;
+
+        // Очищаем поле email при загрузке
+        document.getElementById('email').value = '';
+
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -203,16 +284,16 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        const DEMO_USERS = [
-            { email: 'student@example.com', password: 'password123', name: 'Константин', accessLevel: 1 },
-            { email: 'demo@pyaty-element.ru', password: 'demo2024', name: 'Медрагон', accessLevel: 5 }
-        ];
-
+        // Обработка отправки формы
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
+
+            if (!email || !password) {
+                showToast('Пожалуйста, заполните email и пароль');
+                return;
+            }
 
             const user = DEMO_USERS.find(u => u.email === email && u.password === password);
             
@@ -225,18 +306,15 @@
                     loginAt: new Date().toISOString()
                 };
                 
-                if (remember) {
-                    localStorage.setItem('baZiAuth', JSON.stringify(authData));
-                } else {
-                    sessionStorage.setItem('baZiAuth', JSON.stringify(authData));
-                }
+                // Запоминаем пользователя (без чекбокса "Запомнить меня" пока)
+                sessionStorage.setItem('baZiAuth', JSON.stringify(authData));
                 
                 showToast(`Добро пожаловать, ${user.name}!`);
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 800);
             } else {
-                showToast('Неверный email или пароль');
+                showToast('Неверный email или пароль. Если у вас нет доступа, напишите на konstantlab@gmail.com');
             }
         });
     </script>
