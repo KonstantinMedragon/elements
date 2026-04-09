@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Вход | Ба Цзы — зеркало судьбы</title>
     <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
     <style>
@@ -238,19 +239,38 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        // Демо-пользователи
+        // ==================== ЗАЩИТА ОТ ПРЯМОГО ДОСТУПА ====================
+        const allowedDomains = ['medragon.tilda.ws', 'medragon.ru'];
+        const referrer = document.referrer;
+        
+        // Если реферер пустой (прямой вход) или не с разрешённого домена
+        if (!referrer) {
+            window.location.href = 'https://medragon.tilda.ws/course';
+        } else {
+            let isAllowed = false;
+            for (let domain of allowedDomains) {
+                if (referrer.includes(domain)) {
+                    isAllowed = true;
+                    break;
+                }
+            }
+            if (!isAllowed) {
+                window.location.href = 'https://medragon.tilda.ws/course';
+            }
+        }
+
+        // ==================== ДЕМО-ПОЛЬЗОВАТЕЛИ ====================
         const DEMO_USERS = [
             { email: 'konstantlab@gmail.com', password: '17051979', name: 'Константин', accessLevel: 1 },
             { email: 'bakharew@mail.ru', password: '30081954', name: 'Сергей', accessLevel: 1 },
             { email: 'demo@pyaty-element.ru', password: 'demo2024', name: 'Демо', accessLevel: 1 }
         ];
 
-        // Элементы DOM
+        // ==================== ЭЛЕМЕНТЫ DOM ====================
         const passwordInput = document.getElementById('password');
         const hidePasswordCheckbox = document.getElementById('hidePassword');
         const togglePasswordBtn = document.getElementById('togglePassword');
 
-        // Функция переключения типа поля пароля
         function updatePasswordVisibility() {
             if (hidePasswordCheckbox.checked) {
                 passwordInput.type = 'password';
@@ -261,21 +281,16 @@
             }
         }
 
-        // Кнопка-глазик для быстрого переключения
         togglePasswordBtn.addEventListener('click', () => {
             hidePasswordCheckbox.checked = !hidePasswordCheckbox.checked;
             updatePasswordVisibility();
         });
 
-        // При изменении чекбокса
         hidePasswordCheckbox.addEventListener('change', updatePasswordVisibility);
 
-        // Инициализация: поле пароля пустое, показывает символы
         passwordInput.value = '';
         passwordInput.type = 'text';
         hidePasswordCheckbox.checked = false;
-
-        // Очищаем поле email при загрузке
         document.getElementById('email').value = '';
 
         function showToast(message) {
@@ -285,7 +300,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Обработка отправки формы
+        // ==================== ОБРАБОТКА ФОРМЫ ====================
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
@@ -307,7 +322,6 @@
                     loginAt: new Date().toISOString()
                 };
                 
-                // Запоминаем пользователя (без чекбокса "Запомнить меня" пока)
                 sessionStorage.setItem('baZiAuth', JSON.stringify(authData));
                 
                 showToast(`Добро пожаловать, ${user.name}!`);
