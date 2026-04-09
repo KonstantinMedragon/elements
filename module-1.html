@@ -85,52 +85,25 @@
         
         // ДАННЫЕ УРОКОВ С KINESCOPE (ВСЕ ID ПРОВЕРЕНЫ)
         const lessons = [
-            { number: 1, title: 'Пролог', chinese: '', description: 'Введение в курс Ба Цзы. Что такое «зеркало судьбы» и как оно может изменить вашу жизнь.', hasVideo: true, kinescopeId: 'dwr2AhcpCgbTUyk8s1wzp8' },
-            { number: 2, title: 'Обо мне', chinese: '', description: 'Об удаче, рыбе и рыбаках.', hasVideo: true, kinescopeId: '7eMJMo37eUimhwdjfh74Z7' },
-            { number: 3, title: 'Сотворение пяти элементов. Возникновение мира. Крест Хэ Ту', chinese: '河图', description: 'Космогонический миф о происхождении пяти элементов и магический крест Хэ Ту.', hasVideo: true, kinescopeId: 'tByAh4EP6XhYPzukeMcogH' },
-            { number: 4, title: 'Трансформация Креста в Пентаграмму. Десять небесных архетипов человека — небесные стволы. Пять эмоций', chinese: '天干', description: 'Как крест Хэ Ту превращается в пентаграмму У-Син. Десять архетипов и их связь с пятью эмоциями.', hasVideo: true, kinescopeId: 'r3U9CFCXEA18CYTGefVexv' },
-            { number: 5, title: 'Примеры пяти эмоций в поэзии', chinese: '五行', description: 'Как пять элементов проявляются через поэтические образы и эмоциональные состояния.', hasVideo: true, kinescopeId: 'dnVaSMGEgmif1dFczcfYrv' },
-               { 
-        number: 6, 
-        title: 'Дао', 
-        chinese: '道', 
-        description: 'Найти человека, забывшего слова и поговорить с ним.', 
-        hasVideo: true, 
-        kinescopeId: '7yyALYD1oWg3bk1xKCqZPH' 
-    },
-               { 
-        number: 7, 
-        title: 'Император У-ди и его реформа календаря. Сближение Юпитера и Сатурна', 
-        chinese: '太初', 
-        description: 'Почему У-ди изменил календарь, создав «Тайчу» (太初) в 104 г. до н.э.', 
-        hasVideo: true, 
-        kinescopeId: 'pGzUuaLFcX466HwzRjo3KD' 
-    },
-            ,
-{ 
-    number: 8, 
-    title: 'Символизм числа 2 и 3 в китайской метафизике', 
-    chinese: '太极 · 天地人和', 
-    description: 'Тай Цзи (Великий предел) и принцип Тянь Ди Жэнь Хэ И — единство Неба, Земли и Человека.', 
-    hasVideo: true, 
-    kinescopeId: 'd6Tzr6u5ThcFt6GXNrBGy6' 
-},
-            ,
-{ 
-    number: 9, 
-    title: 'Десять небесных стволов. Архетип Янского дерева', 
-    chinese: '甲木', 
-    description: 'Архетип янского дерева в биографии Киану Ривза.', 
-    hasVideo: true, 
-    kinescopeId: 'reP5Pr9nS5sSZvUG3phEhc' 
-},
-            { number: 10, title: 'Столпы в ба цзы', chinese: '', description: 'Структура четырёх столпов: Год, Месяц, День, Час.', hasVideo: false },
-            { number: 11, title: 'Взаимодействие 10 и 12', chinese: '', description: 'Синергия небесных стволов и земных ветвей.', hasVideo: false },
-            { number: 12, title: '60-ти летний цикл', chinese: '甲子', description: 'Комбинации стволов и ветвей.', hasVideo: false },
-            { number: 13, title: 'Божество Тай Суй', chinese: '太岁', description: 'Годовое божество, направления, обходы.', hasVideo: false },
-            { number: 14, title: 'Господин дня', chinese: '日主', description: 'Определение центральной энергии личности.', hasVideo: false }
-        ];
-        
+    { number: 1, title: 'Пролог', chinese: '', description: 'Введение в курс Ба Цзы. Что такое «зеркало судьбы» и как оно может изменить вашу жизнь.', hasVideo: true, kinescopeId: 'dwr2AhcpCgbTUyk8s1wzp8' },
+    { number: 2, title: 'Обо мне', chinese: '', description: 'Об удаче, рыбе и рыбаках.', hasVideo: true, kinescopeId: '9LCoNqe6jX9KSq9EVYeD6p' },
+    { number: 3, title: 'Сотворение пяти элементов. Возникновение мира. Крест Хэ Ту', chinese: '河图', description: 'Космогонический миф о происхождении пяти элементов и магический крест Хэ Ту.', hasVideo: true, kinescopeId: 'rXC56ATz9KQm8humtnQRMx' },
+    { number: 4, title: 'Трансформация Креста в Пентаграмму. Десять небесных архетипов человека', chinese: '天干', description: 'Как крест Хэ Ту превращается в пентаграмму У-Син. Десять архетипов и их связь с пятью эмоциями.', hasVideo: true, kinescopeId: 'dLJxbV8Lo9BzbJ1jP19RVz' },
+    { number: 5, title: 'Примеры пяти эмоций в поэзии', chinese: '五行', description: 'Как пять элементов проявляются через поэтические образы и эмоциональные состояния.', hasVideo: true, kinescopeId: '6Qpj5La9v1aQkPwEdqNYrv' },
+    { number: 6, title: 'Дао', chinese: '道', description: 'Найти человека, забывшего слова и поговорить с ним.', hasVideo: true, kinescopeId: '7yyALYD1oWg3bk1xKCqZPH' },
+    { number: 7, title: 'Император У-ди и его реформа календаря. Сближение Юпитера и Сатурна', chinese: '太初', description: 'Почему У-ди изменил календарь, создав «Тайчу» (太初) в 104 г. до н.э.', hasVideo: true, kinescopeId: 'bLvB6W2DAsCDkFQu7MvmLW' },
+    { number: 8, title: 'Символизм числа 2 и 3 в китайской метафизике', chinese: '太极 · 天地人和', description: 'Тай Цзи (Великий предел) и принцип Тянь Ди Жэнь Хэ И — единство Неба, Земли и Человека.', hasVideo: true, kinescopeId: 'd6Tzr6u5ThcFt6GXNrBGy6' },
+    { number: 9, title: 'Десять небесных стволов. Архетип Янского дерева', chinese: '甲木', description: 'Архетип янского дерева в биографии Киану Ривза.', hasVideo: true, kinescopeId: 'reP5Pr9nS5sSZvUG3phEhc' },
+    { number: 10, title: 'Пентаграмма у син', chinese: '五行', description: 'Циклы порождения и преодоления пяти элементов.', hasVideo: false },
+    { number: 11, title: 'Пять элементов подробно', chinese: '', description: 'Характеристики Дерева, Огня, Земли, Металла, Воды.', hasVideo: false },
+    { number: 12, title: '10 небесных стволов', chinese: '天干', description: 'Цзя, И, Бин, Дин, У, Цзи, Гэн, Синь, Жэнь, Гуй.', hasVideo: false },
+    { number: 13, title: '12 земных ветвей', chinese: '地支', description: 'Цзы, Чоу, Инь, Мао, Чэнь, Сы, У, Вэй, Шэнь, Ю, Сюй, Хай.', hasVideo: false },
+    { number: 14, title: 'Столпы в ба цзы', chinese: '', description: 'Структура четырёх столпов: Год, Месяц, День, Час.', hasVideo: false },
+    { number: 15, title: 'Взаимодействие 10 и 12', chinese: '', description: 'Синергия небесных стволов и земных ветвей.', hasVideo: false },
+    { number: 16, title: '60-ти летний цикл', chinese: '甲子', description: 'Комбинации стволов и ветвей.', hasVideo: false },
+    { number: 17, title: 'Божество Тай Суй', chinese: '太岁', description: 'Годовое божество, направления, обходы.', hasVideo: false },
+    { number: 18, title: 'Господин дня', chinese: '日主', description: 'Определение центральной энергии личности.', hasVideo: false }
+];        
         const lessonsList = document.getElementById('lessonsList');
         lessonsList.innerHTML = '';
         
