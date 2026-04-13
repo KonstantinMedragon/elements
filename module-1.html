@@ -84,7 +84,7 @@
         const hasAccess = userAccessLevel >= 1;
         
         // ДАННЫЕ УРОКОВ С KINESCOPE (ВСЕ ID ПРОВЕРЕНЫ)
-        const lessons = [
+       const lessons = [
     { number: 1, title: 'Пролог', chinese: '', description: 'Введение в курс Ба Цзы. Что такое «зеркало судьбы» и как оно может изменить вашу жизнь.', hasVideo: true, kinescopeId: 'dwr2AhcpCgbTUyk8s1wzp8' },
     { number: 2, title: 'Обо мне', chinese: '', description: 'Об удаче, рыбе и рыбаках.', hasVideo: true, kinescopeId: '9LCoNqe6jX9KSq9EVYeD6p' },
     { number: 3, title: 'Сотворение пяти элементов. Возникновение мира. Крест Хэ Ту', chinese: '河图', description: 'Космогонический миф о происхождении пяти элементов и магический крест Хэ Ту.', hasVideo: true, kinescopeId: 'rXC56ATz9KQm8humtnQRMx' },
@@ -95,16 +95,18 @@
     { number: 8, title: 'Символизм числа 2 и 3 в китайской метафизике', chinese: '太极 · 天地人和', description: 'Тай Цзи (Великий предел) и принцип Тянь Ди Жэнь Хэ И — единство Неба, Земли и Человека.', hasVideo: true, kinescopeId: 'd6Tzr6u5ThcFt6GXNrBGy6' },
     { number: 9, title: 'Десять небесных стволов. Архетип Янского дерева', chinese: '甲木', description: 'Архетип янского дерева в биографии Киану Ривза.', hasVideo: true, kinescopeId: 'reP5Pr9nS5sSZvUG3phEhc' },
     { number: 10, title: 'Дерево Инь. Сравнение Дерева Инь и Ян', chinese: '乙木', description: 'Пример Архетипа Инского дерева И — Джим Кэрри. Мастерство адаптивности.', hasVideo: true, kinescopeId: 'eMHNc6nT5U9JLqe325ynFg' },
-    { number: 11, title: 'Пентаграмма у син', chinese: '五行', description: 'Циклы порождения и преодоления пяти элементов.', hasVideo: false },
-    { number: 12, title: 'Пять элементов подробно', chinese: '', description: 'Характеристики Дерева, Огня, Земли, Металла, Воды.', hasVideo: false },
-    { number: 13, title: '10 небесных стволов', chinese: '天干', description: 'Цзя, И, Бин, Дин, У, Цзи, Гэн, Синь, Жэнь, Гуй.', hasVideo: false },
-    { number: 14, title: '12 земных ветвей', chinese: '地支', description: 'Цзы, Чоу, Инь, Мао, Чэнь, Сы, У, Вэй, Шэнь, Ю, Сюй, Хай.', hasVideo: false },
-    { number: 15, title: 'Столпы в ба цзы', chinese: '', description: 'Структура четырёх столпов: Год, Месяц, День, Час.', hasVideo: false },
-    { number: 16, title: 'Взаимодействие 10 и 12', chinese: '', description: 'Синергия небесных стволов и земных ветвей.', hasVideo: false },
-    { number: 17, title: '60-ти летний цикл', chinese: '甲子', description: 'Комбинации стволов и ветвей.', hasVideo: false },
-    { number: 18, title: 'Божество Тай Суй', chinese: '太岁', description: 'Годовое божество, направления, обходы.', hasVideo: false },
-    { number: 19, title: 'Господин дня', chinese: '日主', description: 'Определение центральной энергии личности.', hasVideo: false }
-];        const lessonsList = document.getElementById('lessonsList');
+    { number: 11, title: 'Огонь Ян — Бин. Яркое лидерство', chinese: '丙火', description: 'Пример архетипа Бин — Михаил Горбачёв и Адольф Гитлер.', hasVideo: true, kinescopeId: 'tLKkXQunknfnPUY8Vp3wYq' },
+    { number: 12, title: 'Пентаграмма у син', chinese: '五行', description: 'Циклы порождения и преодоления пяти элементов.', hasVideo: false },
+    { number: 13, title: 'Пять элементов подробно', chinese: '', description: 'Характеристики Дерева, Огня, Земли, Металла, Воды.', hasVideo: false },
+    { number: 14, title: '10 небесных стволов', chinese: '天干', description: 'Цзя, И, Бин, Дин, У, Цзи, Гэн, Синь, Жэнь, Гуй.', hasVideo: false },
+    { number: 15, title: '12 земных ветвей', chinese: '地支', description: 'Цзы, Чоу, Инь, Мао, Чэнь, Сы, У, Вэй, Шэнь, Ю, Сюй, Хай.', hasVideo: false },
+    { number: 16, title: 'Столпы в ба цзы', chinese: '', description: 'Структура четырёх столпов: Год, Месяц, День, Час.', hasVideo: false },
+    { number: 17, title: 'Взаимодействие 10 и 12', chinese: '', description: 'Синергия небесных стволов и земных ветвей.', hasVideo: false },
+    { number: 18, title: '60-ти летний цикл', chinese: '甲子', description: 'Комбинации стволов и ветвей.', hasVideo: false },
+    { number: 19, title: 'Божество Тай Суй', chinese: '太岁', description: 'Годовое божество, направления, обходы.', hasVideo: false },
+    { number: 20, title: 'Господин дня', chinese: '日主', description: 'Определение центральной энергии личности.', hasVideo: false }
+];      
+        const lessonsList = document.getElementById('lessonsList');
         lessonsList.innerHTML = '';
         
         lessons.forEach(lesson => {
